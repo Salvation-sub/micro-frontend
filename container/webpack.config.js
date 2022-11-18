@@ -4,15 +4,14 @@ const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPl
 module.exports = {
   mode: "development",
   devServer: {
-    port: 8081,
+    port: 8080,
   },
   plugins: [
     new ModuleFederationPlugin({
-      name: "products",
-      filename: "remoteEntry.js",
-      exposes: {
-        // products/ProductsIndex 를 import 하면 ./src/index 파일에 접근하도록 이름을 정해준다 생각하면 된다.
-        "./ProductsIndex": "./src/index",
+      name: "container",
+      remotes: {
+        products: "products@http://localhost:8081/remoteEntry.js",
+        cart: "cart@http://localhost:8082/remoteEntry.js",
       },
     }),
     new HtmlWebpackPlugin({
